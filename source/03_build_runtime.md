@@ -52,6 +52,8 @@ ADA416XGameMode::ADA416XGameMode()
 
 void ADA416XGameMode::StartPlay()
 {
+	Super::StartPlay();
+
 	// Find the dungeon actor from the scene
 	TActorIterator<ADungeon> DungeonIter = TActorIterator<ADungeon>(GetWorld());
 
