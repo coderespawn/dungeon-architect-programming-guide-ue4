@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="for Unreal Engine 4" />
+  <title>Dungeon Architect Programming Guide (C++)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../theme/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../theme/css/theme.css">
+  
+    <script src="../theme/js/jquery.min.js"></script>
+    <script src="../theme/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<script>
+
+function getPdfUrl() {
+	return "../pdf/programming_guide_2.6+.pdf";
+}
+
+</script>
+
+  <link rel="stylesheet" href="../theme/highlight/styles/tomorrow.css">
+  <script src="../theme/highlight/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+ $(document).ready(function () {
+	 $("#TOC").prependTo("#toc_host");
+	 $("#TOC").attr("data-spy", "affix");
+	 $("#TOC").attr("data-offset-top", "5");
+	$("#TOC").addClass("bs-sidebar");
+	$("#TOC").addClass("hidden-print");
+	
+	 $("#download_pdf").appendTo("#TOC");
+	
+	 /*
+	*/
+        var url = window.location.href;
+        url = url.replace(window.location.hash, "");
+
+	    // Will only work if string in href matches with location
+        $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+
+    // Will also work for relative and absolute hrefs
+        $('ul.nav a').filter(function () {
+            return this.href == url;
+        }).parent().addClass('active').parent().parent().addClass('active');
+
+    });
+
+// Smooth scroll
+$(function() {
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 500);
+        return false;
+      }
+    }
+  });
+});
+
+</script>
+
+<script>
+
+
+$( document ).ready(function() {
+
+	$('img.svg').each(function(){
+		var $img = jQuery(this);
+		var imgID = $img.attr('id');
+		var imgClass = $img.attr('class');
+		var imgURL = $img.attr('src');
+
+		jQuery.get(imgURL, function(data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = jQuery(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if(typeof imgID !== 'undefined') {
+                	$svg = $svg.attr('id', imgID);
+                }
+                // Add replaced image's classes to the new SVG
+                if(typeof imgClass !== 'undefined') {
+                	$svg = $svg.attr('class', imgClass+' replaced-svg');
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+
+	});
+});
+ </script>
+
+<div id="wrap">
+
+  	<div class="container">
+<script>
+$(document).ready(function() {
+	$('#TOC ul').each(function() {
+		$(this).addClass("nav");
+
+	});
+
+	$('#TOC').children('ul').each(function() {
+		$(this).addClass("bs-sidenav");
+	});
+
+  $('a[href="#TOC"]').each(function() {
+    $(this).after($(this).text());
+    $(this).remove();
+  })
+
+
+	$('.documentationBlock img').each(function() {
+
+		$(this).addClass("width: 100%");
+		$(this).addClass("height:100%");
+		$(this).addClass('img-responsive');
+
+	});
+	$('body').scrollspy({ target: '#TOC' })
+
+	$('img').on('load', function(e) {
+    	$('body').scrollspy('refresh');
+    });
+
+});
+
+</script>
+
+<div class="row documentationBlock">
+		<div class="col-md-3" id="toc_host">
+			<div id="download_pdf"><a href="javascript:document.location.href=getPdfUrl();" target="_blank"><i class="fa fa-file-pdf-o"></i> Download PDF</a></div>
+		</div>
+		<div class="col-md-9" style="font-family: 'Open Sans', sans-serif;">
+<div class="branding-logo">
+	<img src="../assets/images/ue4_logo.png">
+</div>
+			<div class="version-block">
+			  <div class="dropdown" style="display: inline">
+			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Version
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			    				<li><a href="programming_guide_2.6+.html">2.6+</a></li>
+			    </ul>
+			  </div>
+			  <div class="version-number">2.6+</div>
+			</div>
+<div id="header">
+<h1 class="title">Dungeon Architect Programming Guide (C++)</h1>
+<h2 class="author">for Unreal Engine 4</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#project-setup">Project Setup</a></li>
+</ul>
+</div>
+<h1 id="introduction">Introduction</h1>
+<p>Dungeon Architect is a plugin for Unreal Engine 4 Editor that lets you quickly build procedural levels for your games. This guide helps you work with the plugin using C++</p>
+<p><iframe width="853" height="480" src="https://www.youtube.com/embed/4aNgzmibRIs?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe></p>
+<h1 id="project-setup">Project Setup</h1>
+<div id="footer">
+  &copy; 2015 <a href="http://coderespawn.com/">Code Respawn Technologies Pvt Ltd</a>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>
